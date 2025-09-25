@@ -209,7 +209,14 @@ function playTrack(index) {
     audioPlayer.play();
 
     nowPlayingElement.textContent = (item.file && item.file.name) ? item.file.name.toUpperCase() : `TRACK ${index+1}`;
-    renderPlaylist();
+
+    if ('mediaSession' in navigator) {
+        navigator.mediaSession.metadata = new MediaMetadata({
+            title: (item.file && item.file.name) ? item.file.name : `Track ${index+1}`,
+            artist: 'Unknown Artist', // You might want to extract this from metadata later
+            album: 'Unknown Album'   // You might want to extract this from metadata later
+        });
+    }    renderPlaylist();
 }
 
 audioPlayer.addEventListener('ended', () => {
@@ -224,5 +231,24 @@ function playNext() {
     if (playlist.length > 0) playTrack(nextIndex);
 }
 
+function playPrevious() {
+    let prevIndex = currentTrackIndex - 1;
+    if (prevIndex < 0) {
+        prevIndex = playlist.length - 1;
+    }
+    if (playlist.length > 0) playTrack(prevIndex);
+}
+
 // Initial render (empty)
 renderPlaylist();
+
+// Media Session API
+if ('mediaSession' in navigator) {
+    navigator.mediaSession.setActionHandler('play', () => { audioPlayer.play(); });
+    navigator.mediaSession.setActionHandler('pause', () => { audioPlayer.pause(); });
+    navigator.mediaSession.setActionHandler('previoustrack', () => { playPrevious(); });
+    navigator.mediaSession.setActionHandler('nexttrack', () => { playNext(); });
+
+    // Optional: Set default playback state
+    navigator.mediaSession.playbackState = 'paused';
+}
