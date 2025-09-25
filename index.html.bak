@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Gemini Retro Player</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="player-body">
+        <div class="screen-glow">
+            <div id="now-playing">GEMINI RETRO PLAYER</div>
+            
+            <div class="vu-meter-container">
+                <div class="vu-meter-bg"></div>
+                <div class="vu-meter-needle" id="vu-needle"></div>
+            </div>
+
+            <div class="controls">
+                <button id="play-pause-btn">PLAY</button>
+                <button id="add-files-btn">ADD</button>
+            </div>
+
+            <div class="volume-container">
+                <label for="volume-slider">VOLUME</label>
+                <input type="range" id="volume-slider" min="0" max="1" step="0.01" value="1">
+            </div>
+        </div>
+
+        <div class="playlist-container">
+            <h3>PLAYLIST</h3>
+            <ul id="playlist"></ul>
+        </div>
+
+        <!-- Hidden audio element -->
+        <audio id="audio-player" crossorigin="anonymous"></audio>
+        
+        <!-- EQ container is kept for future use but hidden for now -->
+        <div id="equalizer-container" style="display: none;"></div>
+    </div>
+    <script src="renderer.js"></script>
+</body>
+</html>
